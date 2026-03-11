@@ -173,7 +173,7 @@ class SessionState(BaseModel):
         """Can this session be resumed from a checkpoint?"""
         # ANY session with checkpoints can be resumed (not just failed ones)
         # This enables: pause/resume, iterative execution, continuation after completion
-        return self.checkpoint_enabled and self.latest_checkpoint_id is not None
+        return self.status not in (SessionStatus.COMPLETED, SessionStatus.CANCELLED)
 
     @classmethod
     def from_execution_result(
